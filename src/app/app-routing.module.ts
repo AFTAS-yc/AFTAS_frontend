@@ -6,14 +6,19 @@ import { MemberTableComponent } from './components/members/member-table/member-t
 import { AllCompetitionsComponent } from './components/competitions/all-competitions/all-competitions.component';
 import { CompetitionInfoComponent } from './components/competitions/competition-info/competition-info.component';
 import { PodiumComponent } from './components/competitions/podium/podium.component';
+import { LoginComponent } from './components/auth/login/login.component';
+import { RegisterComponent } from './components/auth/register/register.component';
+import { AuthGuard } from './guards/Auth.guard';
 
 const routes: Routes = [
-  {path:'levels',component:LevelTableComponent},
-  {path:'fishs',component:FishTableComponent},
-  {path:'members',component:MemberTableComponent},
-  {path:'',component:AllCompetitionsComponent},
-  {path:'competitions/:code',component:CompetitionInfoComponent},
-  {path:'competitions/podium/:code',component:PodiumComponent},
+  {path:'levels',component:LevelTableComponent,canActivate: [AuthGuard] , data: { allowedRoles: ['Manager','Adherent'] }},
+  {path:'fishs',component:FishTableComponent,canActivate: [AuthGuard] , data: { allowedRoles: ['Manager','Adherent'] }},
+  {path:'members',component:MemberTableComponent,canActivate: [AuthGuard] , data: { allowedRoles: ['Manager','Adherent'] }},
+  {path:'login',component:LoginComponent},
+  {path:'register',component:RegisterComponent},
+  {path:'',component:AllCompetitionsComponent,canActivate: [AuthGuard] , data: { allowedRoles: ['Manager','Jury','Adherent'] }},
+  {path:'competitions/:code',component:CompetitionInfoComponent,canActivate: [AuthGuard] , data: { allowedRoles: ['Manager','Jury','Adherent'] }},
+  {path:'competitions/podium/:code',component:PodiumComponent,canActivate: [AuthGuard] , data: { allowedRoles: ['Manager','Jury','Adherent'] }},
 ];
 
 @NgModule({

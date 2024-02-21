@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { Member } from 'src/app/core/models/Member.model';
 import { Ranking } from 'src/app/core/models/Ranking.model';
 import { RankingReq } from 'src/app/core/models/RankingReq.model';
+import { User } from 'src/app/core/models/User.model';
 import { MemberService } from 'src/app/core/services/member.service';
 import { RankingService } from 'src/app/core/services/ranking.service';
 import swal from 'sweetalert';
@@ -14,7 +14,7 @@ export class MembersInCompetitionComponent {
   @Input() rankings: Ranking[] = [];
   @Input() code: String = '';
   @Input() etat: String = '';
-  members: Member[] = [];
+  members: User[] = [];
   ranking: Ranking = {
     id: {
       member: {
@@ -58,12 +58,15 @@ export class MembersInCompetitionComponent {
         this.rankingService
           .deleteData(this.code, ranking.id.member.num)
           .subscribe(() =>
-            this.rankings.splice(this.rankings.indexOf(this.ranking))
+            {
+              this.rankings.splice(this.rankings.indexOf(ranking),1)
+            }
           );
-
+          
         swal('the member removed from competition !', {
           icon: 'success',
         });
+
       } else {
         swal('Your concele this action!');
       }
@@ -93,6 +96,21 @@ export class MembersInCompetitionComponent {
             return;
           }
           this.rankings.push(this.ranking);
+          this.ranking = {
+            id: {
+              member: {
+                num: 0,
+                name: '',
+                familtyName: '',
+                accessionDate: '',
+                nationality: '',
+                identityDocument: '',
+                identityNumber: '',
+              },
+            },
+            rank: 0,
+            score: 0,
+          }
         });
         swal('the member added to competition !', {
           icon: 'success',

@@ -9,6 +9,7 @@ import { switchMap } from 'rxjs';
   templateUrl: './competition-info.component.html',
   styleUrls: ['./competition-info.component.css']
 })
+
 export class CompetitionInfoComponent {
   constructor(private competitonService: CompetitionService,private route:ActivatedRoute) {}
   competition:Competition ={

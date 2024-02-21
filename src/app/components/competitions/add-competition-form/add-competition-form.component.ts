@@ -12,6 +12,7 @@ import swal from 'sweetalert'
 export class AddCompetitionFormComponent {
   constructor(private competitionService: CompetitionService , private datePipe : DatePipe) {}
   ngOnInit(){}
+  error:String[]=[];
   competition:CompetitionReq = {
     date: new Date(),
     startTime: '',
@@ -35,7 +36,18 @@ export class AddCompetitionFormComponent {
   postData()
   {
     this.competitionService.postData(this.competition).subscribe(
-      ()=>swal("Competition Created!", "You clicked the button!", "success")
+      (res)=>{
+        console.log(res.error)
+        if(res.errors)
+        {
+          this.error = res.errors
+        }else
+        swal("Competition Created!", "You clicked the button!", "success")
+      },
+      error => {
+        this.error = error.error.errors
+        console.log(this.error)
+      }
     )
   }
 }

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Member } from 'src/app/core/models/Member.model';
+import { User } from 'src/app/core/models/User.model';
 import { MemberService } from 'src/app/core/services/member.service';
 import swal from 'sweetalert'
 
@@ -10,7 +10,7 @@ import swal from 'sweetalert'
 })
 export class MemberTableComponent {
   constructor(private memberService: MemberService) {}
-  members:Member[] =[];
+  members:User[] =[];
   isShowAddForm : boolean = false;
   isShowUpdateForm : boolean = false;
   id:number = 0;

@@ -21,6 +21,29 @@ import { MembersInCompetitionComponent } from './components/competitions/members
 import { HuntingsInCompetitionComponent } from './components/competitions/huntings-in-competition/huntings-in-competition.component';
 import { PodiumComponent } from './components/competitions/podium/podium.component';
 import { DatePipe } from '@angular/common';
+import { LoginComponent } from './components/auth/login/login.component';
+import { RegisterComponent } from './components/auth/register/register.component';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { JwtModule, JwtModuleOptions } from '@auth0/angular-jwt';
+import { authReducer } from './store/user/user.reducer';
+import { AuthEffects } from './store/user/user.effects';
+
+export function tokenGetter() {
+  const token = getCookie('token');
+  return  token != undefined ? token : null
+}
+
+export function getCookie(name: string): string | undefined {
+  const cookieValue = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+  return cookieValue ? cookieValue.pop(): undefined;
+}
+
+const jwtModuleOptions: JwtModuleOptions = {
+  config: {
+    tokenGetter: tokenGetter,
+  },
+};
 
 @NgModule({
   declarations: [
@@ -40,14 +63,20 @@ import { DatePipe } from '@angular/common';
     MembersInCompetitionComponent,
     HuntingsInCompetitionComponent,
     PodiumComponent,
+    LoginComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    StoreModule.forRoot({ userFeature: authReducer}),
+    EffectsModule.forRoot(AuthEffects),
+    JwtModule.forRoot(jwtModuleOptions)
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }

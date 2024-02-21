@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Member } from 'src/app/core/models/Member.model';
 import { MemberReq } from 'src/app/core/models/MemberReq.model';
 import { MemberService } from 'src/app/core/services/member.service';
 import swal from 'sweetalert'
