@@ -26,6 +26,7 @@ export class AuthGuard implements CanActivate {
     }
   }
 
+  
   isTokenExpired(token: string): boolean {
     if (!token) {
       return true;

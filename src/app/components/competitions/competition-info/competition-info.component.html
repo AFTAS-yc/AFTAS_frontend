@@ -4,10 +4,10 @@
     <li class="me-2">
         <button (click)="choice = 0" class="inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50">Competition</button>
     </li>
-    <li class="me-2">
+    <li *ngIf="user?.role != 'Adherent'" class="me-2">
         <button (click)="choice = 1"  class="inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50">Members</button>
     </li>
-    <li class="me-2">
+    <li *ngIf="user?.role != 'Adherent'" class="me-2">
         <button  (click)="choice = 2"  class="inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50">Huntins</button>
     </li>
    

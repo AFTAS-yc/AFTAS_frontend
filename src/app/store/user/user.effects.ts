@@ -10,9 +10,6 @@ import { AuthService } from 'src/app/core/services/auth.service';
 
 @Injectable()
 export class AuthEffects {
-
-  
-
   login$ = createEffect(() =>
     this.actions$.pipe(
       ofType(login),

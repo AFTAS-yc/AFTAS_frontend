@@ -3,6 +3,9 @@ import { Competition } from 'src/app/core/models/Competition.model';
 import { CompetitionService } from 'src/app/core/services/competition.service';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { selectUser } from 'src/app/store/user/user.selectors';
+import { User } from 'src/app/core/models/User.model';
 
 @Component({
   selector: 'app-competition-info',
@@ -11,7 +14,7 @@ import { switchMap } from 'rxjs';
 })
 
 export class CompetitionInfoComponent {
-  constructor(private competitonService: CompetitionService,private route:ActivatedRoute) {}
+  constructor(private competitonService: CompetitionService,private route:ActivatedRoute,private store : Store) {}
   competition:Competition ={
     code: '',
     date: '',
@@ -26,6 +29,19 @@ export class CompetitionInfoComponent {
   };
   id:String | null ='';
   choice:number=0;
+  user:User|null ={
+    id: 0,
+    fullName: '',
+    dateOfBirth: null,
+    adress: '',
+    email: '',
+    password: '',
+    role: '',
+    accessionDate: '',
+    nationality: '',
+    identityDocument: '',
+    identityNumber: ''
+  }
 
   ngOnInit() {
     this.route.paramMap.pipe(
@@ -41,5 +57,6 @@ export class CompetitionInfoComponent {
           console.error('Erreur lors de la récupération du competition:', error);
         }
       );
+      this.store.select(selectUser).subscribe(user => this.user = user)
   }
 }
