@@ -62,4 +62,8 @@ export class AuthService {
   isAuthenticated(): Observable<boolean> {
     return of(this.cookieService.check('token'));
   }
+
+  logout(): Observable<any> {
+    return this.http.post(this.apiUrl+'/logout', {});
+  }
 }

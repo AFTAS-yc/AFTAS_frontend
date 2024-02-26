@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -28,6 +28,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { JwtModule, JwtModuleOptions } from '@auth0/angular-jwt';
 import { authReducer } from './store/user/user.reducer';
 import { AuthEffects } from './store/user/user.effects';
+import { AuthInterceptor } from './guards/AuthInterceptor';
 
 export function tokenGetter() {
   const token = getCookie('token');
@@ -75,7 +76,11 @@ const jwtModuleOptions: JwtModuleOptions = {
     EffectsModule.forRoot(AuthEffects),
     JwtModule.forRoot(jwtModuleOptions)
   ],
-  providers: [DatePipe],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: AuthInterceptor,
+    multi: true, // Set multi to true for multi-provider array
+  },DatePipe],
   bootstrap: [AppComponent]
 })
 

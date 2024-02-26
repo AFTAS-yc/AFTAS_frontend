@@ -48,6 +48,7 @@ export class AllCompetitionsComponent {
   }
 
   ngOnInit() {
+    console.log(this.authService.getAuthToken());
     this.getData(this.page);
     this.user = this.authService.getAuthUser()
   }
